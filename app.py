@@ -7,8 +7,9 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'secret123'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123%40rockstar@localhost:5432/food_traceability'
+app.secret_key = 'secret12222'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
