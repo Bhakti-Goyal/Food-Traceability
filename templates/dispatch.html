@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Dispatch Form{% endblock %}
+{% block content %}
+
+<h2>Dispatch Form</h2>
+
+<form method="POST" enctype="multipart/form-data" class="form-card">
+    <input type="text" name="supplier_batch_no" placeholder="Supplier Batch No" required>
+    <input type="number" step="0.00001" name="quantity" placeholder="Quantity (kg/l)" required>
+
+    <label for="frozen">Frozen?</label>
+    <select name="frozen" id="frozen" onchange="toggleTemp()" required>
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+    </select>
+
+    <div id="temperatureField" style="display: none;">
+        <input type="text" name="temperature" placeholder="Temperature (°C)">
+    </div>
+
+    <input type="text" name="invoice" placeholder="Invoice" required>
+    <input type="text" name="box_no" placeholder="Box No" required>
+    <input type="text" name="driver_phone" placeholder="Driver Phone No." required>
+    <input type="text" name="vehicle_no" placeholder="Vehicle No." required>
+
+    <label><input type="checkbox" name="cleaning" value="Yes"> Cleaning Done</label>
+
+    <label>Upload Photo:</label>
+    <input type="file" name="photo">
+
+    <button type="submit">Submit</button>
+    <a href="{{ url_for('dispatch_info') }}" class="view-table-link">View Dispatch Information</a>
+
+</form>
+
+<script>
+function toggleTemp() {
+    const frozen = document.getElementById('frozen').value;
+    const tempField = document.getElementById('temperatureField');
+    tempField.style.display = frozen === "Yes" ? "block" : "none";
+}
+</script>
+
+{% endblock %}

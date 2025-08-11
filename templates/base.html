@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Food Traceability System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
+<body>
+
+    <!-- 🧭 NAVIGATION BAR -->
+    {% if session.get('user_id') %}
+    <div class="navbar">
+        <a href="{{ url_for('raw_intake') }}">Raw Intake</a>
+        <a href="{{ url_for('add_production') }}">Production</a>
+        <a href="{{ url_for('trace') }}">Trace</a>
+        <a href="{{ url_for('stock') }}">Stock</a>
+        <a href="{{ url_for('dispatch') }}">Dispatch</a>
+        <a href="{{ url_for('packaging') }}">Packaging</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('packaging_detail') }}">Packaging Detail</a>
+        <a href="{{ url_for('fillings') }}">Fillings</a>
+        <a href="{{ url_for('fillings_sheet') }}">Fillings Sheet</a>
+    
+</div>
+
+
+    </div>
+    {% endif %}
+
+    <!-- 📦 MAIN CONTENT -->
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- 🧁 FOOTER -->
+    <footer>
+        &copy; {{ current_year }} Food Traceability | Made with 💖
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Fillings Sheet{% endblock %}
+{% block content %}
+<h2>Fillings Sheet</h2>
+
+<form method="GET" action="/fillings-sheet">
+    <input type="text" name="search" placeholder="Search..." value="{{ search_query }}">
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Product Name</th>
+            <th>Batch No.</th>
+            <th>Container Type</th>
+            <th>Total No.</th>
+            <th>Net Weight</th>
+            <th>Observed Weight</th>
+            <th>Brand</th>
+            <th>Verified By</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for f in fillings %}
+        <tr>
+            <td>{{ f.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ f.product_name }}</td>
+            <td>{{ f.batch_no }}</td>
+            <td>{{ f.container_type }}</td>
+            <td>{{ f.total_no }}</td>
+            <td>{{ f.net_weight }}</td>
+            <td>{{ f.observed_weight }}</td>
+            <td>{{ f.brand }}</td>
+            <td>{{ f.verified_by }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

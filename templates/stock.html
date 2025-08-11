@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Stock Overview</h2>
+  <table class="table table-striped sortable">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Supplier</th>
+        <th>City</th>
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Arrival</th>
+        <th>Received By</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in stock_data %}
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.supplier }}</td>
+        <td>{{ item.city }}</td>
+        <td>{{ "%.5f"|format(item.quantity) }}</td>
+        <td>{{ item.unit }}</td>
+        <td>{{ item.arrival.strftime('%Y-%m-%d') }}</td>
+        <td>{{ item.receiver }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

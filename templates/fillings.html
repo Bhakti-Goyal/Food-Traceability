@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Fillings Form{% endblock %}
+{% block content %}
+<h2>Fillings Form</h2>
+<form method="POST">
+    <label>Date:</label>
+    <input type="date" name="date" required>
+
+    <label>Product Name:</label>
+    <input type="text" name="product_name" required>
+
+    <label>Batch No.:</label>
+    <input type="text" name="batch_no" required>
+
+    <label>Container Type:</label>
+    <select name="container_type" required>
+        <option value="Bottles">Bottles</option>
+        <option value="Packets">Packets</option>
+    </select>
+
+    <label>Total No.:</label>
+    <input type="number" name="total_no" required>
+
+    <label>Net Weight:</label>
+    <input type="number" step="0.00001" name="net_weight" required>
+
+    <label>Observed Weight:</label>
+    <input type="number" step="0.00001" name="observed_weight" required>
+
+    <label>Brand:</label>
+    <input type="text" name="brand" required>
+
+    <label>Verified By:</label>
+    <input type="text" name="verified_by" required>
+
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

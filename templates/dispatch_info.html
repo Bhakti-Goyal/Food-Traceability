@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Dispatch Information{% endblock %}
+{% block content %}
+
+<h2>Dispatch Information</h2>
+
+<div class="table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Supplier Batch No.</th>
+                <th>Quantity (kg/l)</th>
+                <th>Frozen</th>
+                <th>Temperature</th>
+                <th>Invoice</th>
+                <th>Box No.</th>
+                <th>Driver Phone</th>
+                <th>Vehicle No.</th>
+                <th>Cleaning</th>
+                <th>Photo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in dispatches %}
+            <tr>
+                <td>{{ d.supplier_batch_no }}</td>
+                <td>{{ '%.5f' | format(d.quantity) }}</td>
+                <td>{{ d.frozen }}</td>
+                <td>{{ d.temperature or '—' }}</td>
+                <td>{{ d.invoice }}</td>
+                <td>{{ d.box_no }}</td>
+                <td>{{ d.driver_phone }}</td>
+                <td>{{ d.vehicle_no }}</td>
+                <td>{{ d.cleaning }}</td>
+                <td>
+                    {% if d.photo %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ d.photo) }}" width="50">
+                    {% else %}
+                        No Photo
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

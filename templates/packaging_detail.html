@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Packaging Detail{% endblock %}
+{% block content %}
+
+<h2>Packaging Detail</h2>
+
+<div class="table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Brand</th>
+                <th>Product</th>
+                <th>Product Batch No.</th>
+                <th>Batch No.</th>
+                <th>Expiry Date</th>
+                <th>Sealing</th>
+                <th>Net Weight</th>
+                <th>Observed Weight</th>
+                <th>Boxes</th>
+                <th>Packets/Box</th>
+                <th>Trays</th>
+                <th>Bottles/Tray</th>
+                <th>Checked By</th>
+                <th>Total Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in packages %}
+            <tr>
+                <td>{{ p.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ p.brand }}</td>
+                <td>{{ p.product }}</td>
+                <td>{{ p.product_batch_no }}</td>
+                <td>{{ p.batch_no }}</td>
+                <td>{{ p.expire_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ 'Yes' if p.sealing else 'No' }}</td>
+                <td>{{ '%.5f' | format(p.net_weight) }}</td>
+                <td>{{ '%.5f' | format(p.observed_weight) }}</td>
+                <td>{{ p.box or 0 }}</td>
+                <td>{{ p.packets_per_box or 0 }}</td>
+                <td>{{ p.tray or 0 }}</td>
+                <td>{{ p.bottles_per_tray or 0 }}</td>
+                <td>{{ p.checked_by }}</td>
+                <td><strong>{{ '%.5f' | format(p.total_weight) }}</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

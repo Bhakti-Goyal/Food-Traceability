@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Packaging Detail</h2>
+  <form method="POST" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-4"><input class="form-control" name="date" type="date" required></div>
+      <div class="col-md-4"><input class="form-control" name="brand" placeholder="Brand" required></div>
+      <div class="col-md-4"><input class="form-control" name="product" placeholder="Product" required></div>
+      <div class="col-md-4"><input class="form-control" name="product_batch_no" placeholder="Product Batch No" required></div>
+      <div class="col-md-4"><input class="form-control" name="batch_no" placeholder="Batch No" required></div>
+      <div class="col-md-4"><input class="form-control" name="expire_date" type="date" required></div>
+      <div class="col-md-4"><label><input type="checkbox" name="sealing" value="yes"> Sealing OK</label></div>
+      <div class="col-md-4"><input class="form-control" name="net_weight" type="number" step="0.00001" placeholder="Net Weight" required></div>
+      <div class="col-md-4"><input class="form-control" name="observed_weight" type="number" step="0.00001" placeholder="Observed Weight" required></div>
+      <div class="col-md-4"><input class="form-control" name="pallet" type="number" placeholder="No. of Pallets"></div>
+      <div class="col-md-4"><input class="form-control" name="box" type="number" placeholder="No. of Boxes"></div>
+      <div class="col-md-4"><input class="form-control" name="packets_per_box" type="number" placeholder="Packets per Box"></div>
+      <div class="col-md-4"><input class="form-control" name="tray" type="number" placeholder="No. of Trays"></div>
+      <div class="col-md-4"><input class="form-control" name="bottles_per_tray" type="number" placeholder="Bottles per Tray"></div>
+      <div class="col-md-4"><input class="form-control" name="checked_by" placeholder="Checked By" required></div>
+      <div class="col-md-4"><button class="btn btn-dark w-100" type="submit">Add</button></div>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Raw Material Intake</h2>
+  <form method="POST" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-4"><input class="form-control" name="name" placeholder="Material Name" required></div>
+      <div class="col-md-4"><input class="form-control" name="supplier" placeholder="Supplier" required></div>
+      <div class="col-md-4"><input class="form-control" name="city" placeholder="Supplier City" required></div>
+      <div class="col-md-4"><input class="form-control" name="quantity" type="number" step="0.00001" placeholder="Quantity" required></div>
+      <div class="col-md-4">
+        <select class="form-control" name="unit" required>
+          <option value="kg">kg</option>
+          <option value="l">l</option>
+          <option value="oz">oz</option>
+          <option value="lbs">lbs</option>
+        </select>
+      </div>
+      <div class="col-md-4"><input class="form-control" type="date" name="arrival" required></div>
+      <div class="col-md-4"><input class="form-control" name="receiver" placeholder="Received By" required></div>
+      <div class="col-md-4"><button class="btn btn-dark w-100" type="submit">Add Material</button></div>
+    </div>
+  </form>
+</div>
+{% endblock %}

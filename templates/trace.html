@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Traceability</h2>
+  <table class="table table-bordered table-hover sortable">
+    <thead class="table-dark">
+      <tr>
+        <th>Product</th>
+        <th>Batch No.</th>
+        <th>Raw Materials</th>
+        <th>Issued Quantity</th>
+        <th>Used Quantity</th>
+        <th>Waste</th>
+        <th>Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product, details in trace_data.items() %}
+      <tr>
+        <td>{{ product }}</td>
+        <td>{{ details.batch }}</td>
+        <td>
+          <ul>
+            {% for m in details.materials %}
+            <li>{{ m.raw_material.name }} ({{ m.raw_material.supplier }})</li>
+            {% endfor %}
+          </ul>
+        </td>
+        <td>{{ "%.5f"|format(details.issued) }}</td>
+        <td>{{ "%.5f"|format(details.used) }}</td>
+        <td>{{ "%.5f"|format(details.waste) }}</td>
+        <td>{{ details.unit }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
