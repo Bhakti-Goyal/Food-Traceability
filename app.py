@@ -1,4 +1,3 @@
-from models import db
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -6,22 +5,26 @@ from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
 
+# Import models
+from models import db, User, RawMaterial, Production, Dispatch, Packaging, Filling
+
 app = Flask(__name__)
 app.secret_key = 'secret12222'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
+# ✅ Force SQLite for local testing
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///local.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Uploads folder
 UPLOAD_FOLDER = os.path.join('static', 'uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Init extensions
 db.init_app(app)
 bcrypt = Bcrypt(app)
 
-from models import User, RawMaterial, Production, Dispatch, Packaging, Filling
-
-
-# 🔁 Create database
+# 🔁 Create database tables (safe)
 with app.app_context():
     db.create_all()
 
@@ -167,17 +170,14 @@ def dispatch():
     dispatches = Dispatch.query.all()
     return render_template('dispatch.html', dispatches=dispatches, now=datetime.now())
 
-
-# Dispatch Table Page
+# Dispatch Info Table
 @app.route('/dispatch-info')
 def dispatch_info():
     if 'user_id' not in session:
         return redirect('/login')
-
     dispatches = Dispatch.query.all()
     return render_template('dispatch_info.html', dispatches=dispatches)
 
-   
 # 9️⃣ Packaging
 @app.route('/packaging', methods=['GET', 'POST'])
 def packaging():
@@ -207,32 +207,31 @@ def packaging():
 
     packages = Packaging.query.all()
     return render_template('packaging.html', packages=packages, now=datetime.now())
-@app.route('/packaging-detail')
+
+@app.route('/packaging_detail')
 def packaging_detail():
     if 'user_id' not in session:
         return redirect('/login')
 
     packages = Packaging.query.all()
-
-    # Compute total weight for each package
     for p in packages:
         box_weight = p.box * p.packets_per_box * p.net_weight if p.box and p.packets_per_box else 0
         tray_weight = p.tray * p.bottles_per_tray * p.net_weight if p.tray and p.bottles_per_tray else 0
         p.total_weight = round(box_weight + tray_weight, 5)
 
     return render_template('packaging_detail.html', packages=packages, now=datetime.now())
-# Fillings Form
+
+# 🔟 Fillings Form
 @app.route('/fillings', methods=['GET', 'POST'])
 def fillings():
     if 'user_id' not in session:
         return redirect('/')
-
     if request.method == 'POST':
         filling = Filling(
             date=datetime.strptime(request.form['date'], '%Y-%m-%d'),
             product_name=request.form['product_name'],
             batch_no=request.form['batch_no'],
-            container_type=request.form['container_type'],
+            type=request.form['container_type'],
             total_no=int(request.form['total_no']),
             net_weight=float(request.form['net_weight']),
             observed_weight=float(request.form['observed_weight']),
@@ -241,13 +240,10 @@ def fillings():
         )
         db.session.add(filling)
         db.session.commit()
-        return redirect('/fillings-sheet')
-    
-
+        return redirect('/fillings_sheet')
     return render_template('fillings.html')
 
-
-# Fillings Sheet (with search)
+# Fillings Sheet
 @app.route('/fillings_sheet')
 def fillings_sheet():
     search = request.args.get('search', '')
@@ -259,14 +255,8 @@ def fillings_sheet():
         ).all()
     else:
         fillings = Filling.query.all()
-
     return render_template('fillings_sheet.html', fillings=fillings, search=search)
 
-
-
-
-# 🔟 Run the App
-if __name__ == '__main__':
+# ✅ Run app
+if __name__ == "__main__":
     app.run(debug=True)
-
-
